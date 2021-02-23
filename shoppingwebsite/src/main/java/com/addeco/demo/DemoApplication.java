@@ -19,7 +19,7 @@ import com.addeco.demo.repository.ShopCartRepository;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
-/**/
+/****/
 	@Autowired
 	CustomerRepository customrepository;
 
