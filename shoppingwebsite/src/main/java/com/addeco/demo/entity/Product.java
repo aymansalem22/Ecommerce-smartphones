@@ -8,10 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "product")
@@ -34,8 +35,7 @@ public class Product implements Serializable {
 	@ManyToMany(mappedBy = "product")
 	private List<ShopCart> shopcart;
 
-	@ManyToMany
-	@JoinTable(name = "product_customer", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"))
+	@ManyToMany(mappedBy="product")
 	private List<Customer> customers = new ArrayList<>();
 
 	public List<Customer> getCustomer() {
@@ -51,7 +51,6 @@ public class Product implements Serializable {
 	}
 
 	public Product(String name, String description, Integer quantity, Double price, Manufacturer manufacturer) {
-
 		this.name = name;
 		this.description = description;
 		this.quantity = quantity;
@@ -115,10 +114,23 @@ public class Product implements Serializable {
 		this.shopcart = shopcart;
 	}
 
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity
-				+ ", price=" + price + ", manufacturer=" + manufacturer + ", shopcart=" + shopcart + "]";
+				+ ", price=" + price + ", manufacturer=" + manufacturer + ", shopcart=" + shopcart + ", customers="
+				+ customers + "]";
 	}
+
+	
+
+
 
 }

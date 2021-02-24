@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "shopcart")
@@ -35,30 +37,17 @@ public class ShopCart implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
 	private List<Product> product = new ArrayList<>();
 
-	@OneToOne(mappedBy = "shopcart")
+	@ManyToOne
+	@JoinColumn(name="customer_id")
 	private Customer customer;
 
 	
 	
 	public ShopCart() {
+		
 	}
-
-
-
-
-
-
-	public List<Product> getProduct() {
-		return product;
-	}
-
-
-
-	public void setProduct(List<Product> product) {
-		this.product = product;
-	}
-
-
+	
+	
 
 	public Long getId() {
 		return id;
@@ -68,7 +57,13 @@ public class ShopCart implements Serializable {
 		this.id = id;
 	}
 
+	public List<Product> getProduct() {
+		return product;
+	}
 
+	public void setProduct(List<Product> product) {
+		this.product = product;
+	}
 
 	public Customer getCustomer() {
 		return customer;
@@ -79,9 +74,21 @@ public class ShopCart implements Serializable {
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "ShopCart [id=" + id + ", product=" + product + ", customer=" + customer + "]";
 	}
+
+	
+	
+	
+
+    
+
+
+
+
+
 
 }

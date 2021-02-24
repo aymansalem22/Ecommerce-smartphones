@@ -4,16 +4,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+
+
+
 
 @Entity
 @Table(name = "customer")
@@ -31,13 +35,17 @@ public class Customer implements Serializable {
 	private String phoneNumber;
 	private String username;
 
-	@ManyToMany(mappedBy="customers")
-	private List<Product> products = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "customer_product",
+	joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
+	private List<Product> product = new ArrayList<>();
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "shop_id")
-	private ShopCart shopcart;
+	@OneToMany(mappedBy="customer")
+	private List<ShopCart> shopcarts = new ArrayList<>();
 
+	
+	
 	public Customer() {
 	}
 
@@ -51,6 +59,8 @@ public class Customer implements Serializable {
 		this.username = username;
 
 	}
+	
+	
 
 	public Long getId() {
 		return id;
@@ -108,27 +118,33 @@ public class Customer implements Serializable {
 		this.username = username;
 	}
 
+	
+
+	public List<ShopCart> getShopcarts() {
+		return shopcarts;
+	}
+
+	public void setShopcarts(List<ShopCart> shopcarts) {
+		this.shopcarts = shopcarts;
+	}
+
 	public List<Product> getProduct() {
-		return products;
+		return product;
 	}
 
 	public void setProduct(List<Product> product) {
-		this.products = product;
-	}
-
-	public ShopCart getShopcart() {
-		return shopcart;
-	}
-
-	public void setShopcart(ShopCart shopcart) {
-		this.shopcart = shopcart;
+		this.product = product;
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", name=" + name + ", address=" + address + ", email=" + email + ", password="
-				+ password + ", phoneNumber=" + phoneNumber + ", username=" + username + ", product=" + products
-				+ ", shopcart=" + shopcart + "]";
+				+ password + ", phoneNumber=" + phoneNumber + ", username=" + username + ", product=" + product
+				+ ", shopcarts=" + shopcarts + "]";
 	}
+
+	
+
+
 
 }
